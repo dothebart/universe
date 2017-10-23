@@ -64,11 +64,12 @@
     "ARANGODB_SECRET": "{{arangodb.secret}}"
   },
   "container": {
-    "type": "DOCKER",
-    "docker": {
-      "image": "{{resource.assets.container.docker.framework}}",
-      "forcePullImage": true,
-      "network": "HOST"
+    "type": "MESOS",
+    "container":{
+     "docker":{
+        "image":"{{resource.assets.container.docker.framework}}"
+     },
+      "cached": false
     }
   },
   "healthChecks": [
