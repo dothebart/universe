@@ -26,6 +26,12 @@
   "args": [
     "framework",
     "--framework_name={{arangodb.framework-name}}",
+    {{#arangodb.useDocker}}
+    "--containerizer=DOCKER",
+    {{/arangodb.useDocker}}
+    {{^arangodb.useDocker}}    
+    "--containerizer=MESOS",
+    {{/arangodb.useDocker}}
     "--master={{mesos.master}}",
     "--zk={{arangodb.zk}}",
     "--user={{arangodb.framework-user}}",
@@ -64,13 +70,23 @@
     "ARANGODB_SECRET": "{{arangodb.secret}}"
   },
   "container": {
-    "type": "MESOS",
-    "container":{
-     "docker":{
-        "image":"{{resource.assets.container.docker.framework}}"
-     },
-      "cached": false
+    {{#arangodb.useDocker}}
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{resource.assets.container.docker.framework}}",
+      "forcePullImage": true,
+      "network": "HOST"=
     }
+    {{/arangodb.useDocker}}
+
+    {{^arangodb.useDocker}}    
+    "type": "MESOS",
+    "docker":{
+      "image":"{{resource.assets.container.docker.framework}}",
+      "force_pull_image": true
+    }
+    {{/arangodb.useDocker}}
+
   },
   "healthChecks": [
     {

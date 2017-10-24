@@ -28,6 +28,12 @@
           "default": "arangodb3"
         },
 
+        "useDocker": {
+          "description": "Whether to run on docker or mesos containers.",
+          "type": "boolean",
+          "default": true
+        },
+
         "zk": {
           "description": "ZooKeeper URL for storing state. Format: zk://host1:port1,host2:port2,.../path. Please note that the id is appended to the path.",
           "type": "string",
@@ -187,7 +193,7 @@
         "arangodb-docker-image": {
           "description": "Docker image to run arangodb.",
           "type": "string",
-          "default": "dothebart/arangodb-mesos:3.2"
+          "default": "arangodb/arangodb-mesos:3.2"
         },
 
         "arangodb-privileged-image": {
@@ -209,6 +215,16 @@
         },
         "arangodb-enterprise-key": {
           "description": "Use enterprise edition using the following key",
+          "type": "string",
+          "default": ""
+        },
+        "arangodb-storage-engine": {
+          "description": "Storage engine to use: rocksdb, mmfiles",
+          "type": "string",
+          "default": "auto"
+        },
+        "arangodb-encryption-keyfile": {
+          "description": "Enable data encryption (implies rocksdb storage engine). Provide a base64 encoded 32 byte long key. ENTERPRISE ONLY",
           "type": "string",
           "default": ""
         },
